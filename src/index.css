@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Outfit", system-ui, Helvetica, Arial, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+.bg-cover {
+  background-image: url("assets/sunset.jpg");
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
+  /* Atur ukuran dan posisi gambar latar belakang sesuai kebutuhan Anda */
+}

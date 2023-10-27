@@ -1,0 +1,11 @@
+ 
+  const APIkey = "a95b2a3164237d4e5692f3d006484d8b";
+ // useEffect(() => {
+  //   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIkey}`;
+  //   axios.get(url).then((res) => {
+  //     setDataWeather(res.data);
+  //     setLoading(false);
+  //   });
+  // }, [location]);
+
+  // let icon;
