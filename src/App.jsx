@@ -128,7 +128,6 @@ function App() {
   return (
     <div className="w-full h-screen">
       <BackgroundWeather bg={bg1} />
-
       {data && (
         <div className="w-full h-screen absolute top-0 left-0 bg-black/30">
           <div className="w-full h-screen absolute z-10 flex flex-col items-center justify-center px-4 md:px-0">
