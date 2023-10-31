@@ -5,7 +5,7 @@ const Loading = () => {
   return (
     <div>
       <div>
-        <ImSpinner8 className="text-5xl animate-spin" />
+        <ImSpinner8 className="text-5xl text-white animate-spin" />
       </div>
     </div>
   );
