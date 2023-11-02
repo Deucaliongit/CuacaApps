@@ -1,21 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "./components/Header";
-import Content from "./components/Content";
-import Bottom from "./components/Bottom";
-import bg1 from "../src/assets/bg11.webp";
-import rainy from "./assets/rainy.jpg";
-import claoudy from "./assets/claoudy.jpg";
-import sunset from "./assets/sunset1.jpg";
 
-import {
-  IoMdSunny,
-  IoMdRainy,
-  IoMdCloud,
-  IoMdSnow,
-  IoMdThunderstorm,
-  IoMdSearch,
-} from "react-icons/io";
+import Content from "./components/Content";
+
+import bg1 from "../src/assets/bg11.webp";
 
 import {
   BsCloudHazeFill,
@@ -141,14 +129,14 @@ function App() {
               <Content
                 iconWeather={makeIconUrl(data.weather[0].icon)}
                 dataName={data.name}
-                dataCounyty={data.sys.country}
+                dataCounytry={data.sys.country}
                 dataDateUTC={date.getUTCDate()}
                 dataDateMonth={date.getMonth()}
                 dataDateYear={date.getUTCFullYear()}
                 dataTemp={data.main.temp}
                 iconTemp={<TbTemperatureCelsius />}
                 dataDesc={data.description}
-                iconEye={BsEye}
+                iconEye={<BsEye />}
                 dataVisibility={data.visibility / 1000}
                 iconFeels={<BsThermometer />}
                 dataFeels={data.main.feels_like}

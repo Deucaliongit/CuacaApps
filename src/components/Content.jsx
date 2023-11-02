@@ -1,11 +1,12 @@
 import React from "react";
-import ErrorBox from "./ErrorBox";
+import City from "./City";
+import Temperatur from "./Temperatur";
 
 const Content = (props) => {
   const {
     iconWeather,
     dataName,
-    dataCounyty,
+    dataCounytry,
     dataDateUTC,
     dataDateMonth,
     dataDateYear,
@@ -23,28 +24,15 @@ const Content = (props) => {
   } = props;
   return (
     <div>
-      <div className="w-full flex items-center gap-x-5">
-        <div>
-          <img src={iconWeather} alt="img" />
-        </div>
-        <div>
-          <div className="text-xl font-semibold">
-            {dataName}, {dataCounyty}
-          </div>
-          <div>
-            {dataDateUTC}/{dataDateMonth}/{dataDateYear}
-          </div>
-        </div>
-      </div>
-      <div className="my-8">
-        <div className="flex justify-center items-center">
-          <div className="text-8xl leading-none font-semibold">
-            {parseInt(dataTemp)}
-          </div>
-          <div className="text-4xl">{iconTemp}</div>
-        </div>
-        <div className="capitalize text-center">{dataDesc}</div>
-      </div>
+      <City
+        iconWeather={iconWeather}
+        dataName={dataName}
+        dataCounytry={dataCounytry}
+        dataDateUTC={dataDateUTC}
+        dataDateMonth={dataDateMonth}
+        dataDateYear={dataDateYear}
+      />
+      <Temperatur dataTemp={dataTemp} dataDesc={dataDesc} iconTemp={iconTemp} />
       <div className="max-w-[378px] flex flex-col gap-y-6 mx-auto">
         <div className="flex justify-between">
           <div className="flex items-center gap-x-2">
