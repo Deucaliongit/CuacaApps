@@ -32,6 +32,7 @@ import { ImSpinner8 } from "react-icons/im";
 import Loading from "./components/Loading";
 import BackgroundWeather from "./components/BackgroundWeather";
 import { getDataWeather } from "./utils/Api";
+import Form from "./components/Form";
 
 function App() {
   const APIKey = "a95b2a3164237d4e5692f3d006484d8b";
@@ -42,8 +43,8 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [animate, setAnimate] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [iconUrl, setIconUrl] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [iconWeather, setIconWeather] = useState("");
 
   const makeIconUrl = (iconUrl) =>
     `https://openweathermap.org/img/wn/${iconUrl}@2x.png`;
@@ -51,22 +52,34 @@ function App() {
   useEffect(() => {
     setLoading(true);
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}&units=metric`;
-    setTimeout(() => {
-      axios.get(url).then((res) => {
-        setDataWeather(res.data);
+
+    axios
+      .get(url)
+      .then((res) => {
+        setTimeout(() => {
+          setDataWeather(res.data);
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((err) => {
         setLoading(false);
+        setErrMsg(err);
       });
-    }, 1000);
   }, [location]);
 
-  console.log(data);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrMsg;
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [errMsg]);
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
   };
 
   const handleSubmit = (e) => {
-    console.log(inputValue);
+    // console.log(inputValue);
     if (inputValue !== "") {
       setLocation(inputValue);
     }
@@ -84,25 +97,6 @@ function App() {
     e.preventDefault();
   };
 
-  // useEffect(() => {
-  //   setLoading(true);
-
-  //   setTimeout(() => {
-  //     const fetchWeatherData = async () => {
-  //       try {
-  //         const data = await getDataWeather(location);
-  //         setDataWeather(data);
-  //         setLoading(false);
-  //         setShouldFetchData(false);
-  //       } catch (err) {
-  //         setLoading(false);
-  //         setErrMsg(err);
-  //       }
-  //     };
-  //     fetchWeatherData();
-  //   }, 1500);
-  // }, [location]);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setErrMsg("");
@@ -116,7 +110,7 @@ function App() {
       <div>
         <div>
           <BackgroundWeather bg={bg1} />
-          <div className="w-full h-screen flex items-center justify-center">
+          <div className="w-full h-screen absolute top-0 left-0 bg-black/30 flex justify-center items-center">
             <Loading />
           </div>
         </div>
@@ -125,125 +119,48 @@ function App() {
   }
 
   const date = new Date();
+
   return (
     <div className="w-full h-screen">
       <BackgroundWeather bg={bg1} />
-      {data && (
-        <div className="w-full h-screen absolute top-0 left-0 bg-black/30">
-          <div className="w-full h-screen absolute z-10 flex flex-col items-center justify-center px-4 md:px-0">
-            <form
-              className={`${
-                animate ? "animate-shake" : "animate-none"
-              }h-16 bg-black/30 w-full max-w-[450px] rounded-full backdrop-blur-lg mb-8`}
-            >
-              <div className="h-full relative flex justify-between items-center p-2">
-                <input
-                  onChange={(e) => handleInput(e)}
-                  className="flex flex-1 bg-transparent outline-none text-white pl-6 h-full"
-                  type="text"
-                  placeholder="Search by city or Country"
-                />
-
-                <button onClick={(e) => handleSubmit(e)} className="px-2">
-                  <IoMdSearch
-                    className="cursor-pointer hover:scale-110 ease-in duration-300 hover:shadow-gray-400 hover:text-white text-gray-400"
-                    size={30}
-                  />
-                </button>
-              </div>
-            </form>
-            <div className="w-full bg-black/20 max-w-[450px] min-h-[584px] text-white backdrop-blur-lg rounded-lg py-12 px-6">
-              {loading ? (
-                <div className="w-full h-full flex justify-center items-center">
-                  <ImSpinner8 size={40} className="text-5xl animate-spin" />
-                </div>
-              ) : (
-                <div>
-                  <div className="flex items-center gap-x-5">
-                    <div>
-                      <img src={makeIconUrl(data.weather[0].icon)} alt="img" />
-                    </div>
-                    <div>
-                      <div className="text-xl font-semibold">
-                        {data.name}, {data.sys.country}
-                      </div>
-                      <div>
-                        {date.getUTCDate()}/{date.getMonth()}/
-                        {date.getUTCFullYear()}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="my-20">
-                    <div className="flex justify-center items-center">
-                      <div className="text-8xl leading-none font-light">
-                        {parseInt(data.main.temp)}
-                      </div>
-                      <div className="text-4xl">
-                        <TbTemperatureCelsius />
-                      </div>
-                    </div>
-                    <div className="capitalize text-center">
-                      {data.description}
-                    </div>
-                  </div>
-                  <div className="max-w-[378px] flex flex-col gap-y-6 mx-auto">
-                    <div className="flex justify-between">
-                      <div className="flex items-center gap-x-2">
-                        <div>
-                          <BsEye />
-                        </div>
-                        <div className="text-sm">
-                          Visibility
-                          <span className="ml-2">
-                            {data.visibility / 1000} km
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-x-2">
-                        <div>
-                          <BsThermometer />
-                        </div>
-                        <div className="text-sm flex">
-                          Feels Like
-                          <div className="flex">
-                            <span className="ml-2">
-                              {parseInt(data.main.feels_like)}
-                            </span>
-                            <TbTemperatureCelsius />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between">
-                      <div className="flex items-center gap-x-2">
-                        <div>
-                          <BsWater />
-                        </div>
-                        <div className="text-sm">
-                          Humidity
-                          <span className="ml-2">{data.main.humidity} %</span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-x-2">
-                        <div>
-                          <BsWind />
-                        </div>
-                        <div className="text-sm flex">
-                          Wind
-                          <span className="ml-2">{data.wind.speed} m/s</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* <Header />
-            <Content />
-            <Bottom /> */}
+      <div className="w-full h-screen absolute top-0 left-0 bg-black/30">
+        <div className="w-full h-screen absolute z-10 flex flex-col items-center justify-center px-4 md:px-0">
+          {errMsg && (
+            <div className="w-full max-w-[90vw] lg:max-w-[450px] lg-top-10 p-2 top-2 bg-pink-50 absolute border-b-4 border-red-400 mb-10 text-center">{`${errMsg.response.data.message}`}</div>
+          )}
+          <Form
+            inputValue={inputValue}
+            onInput={handleInput}
+            onSubmit={handleSubmit}
+            animate={animate}
+          />
+          <div className="w-full bg-black/20 max-w-[450px] min-h-[384px] text-white backdrop-blur-lg rounded-lg py-12 px-6">
+            {loading ? (
+              <Loading />
+            ) : (
+              <Content
+                iconWeather={makeIconUrl(data.weather[0].icon)}
+                dataName={data.name}
+                dataCounyty={data.sys.country}
+                dataDateUTC={date.getUTCDate()}
+                dataDateMonth={date.getMonth()}
+                dataDateYear={date.getUTCFullYear()}
+                dataTemp={data.main.temp}
+                iconTemp={<TbTemperatureCelsius />}
+                dataDesc={data.description}
+                iconEye={BsEye}
+                dataVisibility={data.visibility / 1000}
+                iconFeels={<BsThermometer />}
+                dataFeels={data.main.feels_like}
+                iconHumidity={<BsWater />}
+                dataHumidity={data.main.humidity}
+                iconSpeed={<BsWind />}
+                dataSpeed={data.wind.speed}
+              />
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

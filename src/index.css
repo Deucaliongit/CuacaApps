@@ -4,14 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: "Outfit", system-ui, Helvetica, Arial, sans-serif;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
 .bg-cover {
   background-image: url("assets/sunset.jpg");
   background-size: cover;

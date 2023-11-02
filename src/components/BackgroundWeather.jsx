@@ -6,7 +6,7 @@ const BackgroundWeather = ({ bg, alt }) => {
       <img
         src={bg}
         alt="Background Image"
-        className="object-cover h-screen w-full absolute z-0 "
+        className="object-cover h-screen w-full bg-center  absolute z-0 "
       />
     </div>
   );
